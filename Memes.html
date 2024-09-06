@@ -38,8 +38,7 @@
         .carousel-image {
             width: 960px;
             height: 540px;
-            margin: 0 10px;
-            box-sizing: border-box;
+            flex-shrink: 0; /* Prevents shrinking of images */
         }
 
         .button-container {
@@ -127,7 +126,7 @@
             } else {
                 currentIndex = index;
             }
-            slides.style.transform = `translateX(${-currentIndex * (960 + 20)}px)`; // Adjust for image width and margin
+            slides.style.transform = `translateX(${-currentIndex * 960}px)`; // Adjusted to remove gap at the end
         }
 
         function moveSlide(step) {
