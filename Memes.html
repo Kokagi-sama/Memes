@@ -1,32 +1,68 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <link rel="stylesheet" href="java/stylesheet.css">
     <title>Memes</title>
     <meta charset="UTF-8">
-  </head>
-  <body>
-    <script defer src="java/youtube.js"></script>
-    <div>
-      <a href="https://www.youtube.com/watch?v=BMvqvnyGtGo">
-       <img class="image" src="https://github.com/Kokagi-sama/Memes/aoko_under_trees.jpg" alt="Aoko Under Trees" height="480px" />
-      </a>
-    </div>
-    
-    <br>
     <style>
-      body {
-      background-image: url('https://images4.alphacoders.com/865/thumb-1920-865573.png');
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-size: cover;
-      height:100%;
-      background-position: center ;
-    }
+        body {
+            background-image: url('https://images4.alphacoders.com/865/thumb-1920-865573.png');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            height: 100%;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .image {
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .title {
+            font-size: 2em;
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: magenta;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
     </style>
-    <div class="text-center">
-      <button id = "button" onclick="location.href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'"class="block magenta margin-auto">Click Me</button>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Memes</h1>
+        <div>
+            <a href="https://www.youtube.com/watch?v=BMvqvnyGtGo">
+                <img class="image" src="https://github.com/Kokagi-sama/Memes/raw/main/aoko_under_trees.jpg" alt="Aoko Under Trees" />
+            </a>
+        </div>
+        <div class="button-container">
+            <button id="button" onclick="location.href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'" class="button">Click Me</button>
+        </div>
     </div>
-    
-  </body>
+</body>
 </html>
