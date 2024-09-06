@@ -191,6 +191,11 @@
             audio.volume = volume;
         }
 
+        // Ensure audio starts in the correct state
+        document.addEventListener('DOMContentLoaded', () => {
+            audioToggle.textContent = audio.paused ? '🔈' : '🔊';
+        });
+
         // Start automatic sliding
         startAutoSlide();
 
@@ -199,3 +204,4 @@
     </script>
 </body>
 </html>
+
