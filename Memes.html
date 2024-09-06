@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memes</title>
+    <title>Memes Carousel</title>
     <style>
         body {
             background-image: url('https://images4.alphacoders.com/865/thumb-1920-865573.png');
@@ -36,8 +36,8 @@
 
         .carousel-image {
             width: 33.33%;
-            box-sizing: border-box;
             opacity: 0.5;
+            box-sizing: border-box;
             transition: opacity 0.3s;
         }
 
@@ -119,23 +119,32 @@
     <script>
         let currentIndex = 1;
         const carouselImages = document.querySelector('.carousel-images');
-        const totalSlides = document.querySelectorAll('.carousel-image').length;
+        const images = Array.from(document.querySelectorAll('.carousel-image'));
+        const totalSlides = images.length;
 
         function updateCarousel() {
-            const offset = -currentIndex * 33.33; // Move carousel by index
-            carouselImages.style.transform = `translateX(${offset}%)`;
+            // Circular queue logic for determining previous, current, and next images
+            const prevIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            const nextIndex = (currentIndex + 1) % totalSlides;
 
-            const images = document.querySelectorAll('.carousel-image');
-            images.forEach((img, i) => {
-                img.classList.remove('active');
-                if (i === currentIndex) {
-                    img.classList.add('active');
-                }
-            });
+            // Re-arrange the images to always show previous, current, and next images
+            carouselImages.innerHTML = '';
+
+            // Add previous, current, and next images in correct order
+            carouselImages.appendChild(images[prevIndex].cloneNode(true));
+            carouselImages.appendChild(images[currentIndex].cloneNode(true));
+            carouselImages.appendChild(images[nextIndex].cloneNode(true));
+
+            // Add active class to the center image
+            const newImages = document.querySelectorAll('.carousel-image');
+            newImages[1].classList.add('active');
+
+            // Reset transform to start from the second image (current)
+            carouselImages.style.transform = 'translateX(-33.33%)';
         }
 
         function showSlide(index) {
-            currentIndex = (index + totalSlides) % totalSlides; // Keep index in bounds
+            currentIndex = (index + totalSlides) % totalSlides;
             updateCarousel();
         }
 
