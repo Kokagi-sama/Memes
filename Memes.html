@@ -105,10 +105,13 @@
         <h1 class="title">Memes</h1>
         <div class="carousel">
             <div class="carousel-images">
-                <img class="carousel-image active" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_under_trees.jpg" alt="Aoko Under Trees">
+                <!-- Clone of last image -->
+                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_umbrella.jpeg" alt="Aoko Umbrella">
+                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_under_trees.jpg" alt="Aoko Under Trees">
                 <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_fifth_magic.jpg" alt="Aoko Fifth Magic">
                 <img class="carousel-image" src="https://raw.githubusercontent.com/Kokagi-sama/Memes/main/aoko_unleashing_magic.jpg" alt="Aoko Unleashing Magic">
-                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_umbrella.jpeg" alt="Aoko Umbrella">
+                <!-- Clone of first image -->
+                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_under_trees.jpg" alt="Aoko Under Trees">
             </div>
             <button class="carousel-button prev" onclick="moveSlide(-1)">&#10094;</button>
             <button class="carousel-button next" onclick="moveSlide(1)">&#10095;</button>
@@ -119,7 +122,7 @@
     </div>
 
     <script>
-        let currentIndex = 0;
+        let currentIndex = 1; // Start at the second slide (to handle clone at the start)
         const intervalTime = 3000; // Time in milliseconds (3 seconds)
         const slides = document.querySelector('.carousel-images');
         const images = document.querySelectorAll('.carousel-image');
@@ -127,13 +130,26 @@
 
         function showSlide(index) {
             if (index >= totalSlides) {
-                currentIndex = 0;
+                currentIndex = 1; // Skip to the first real slide
+                slides.style.transition = 'none'; // Disable transition for the jump
+                slides.style.transform = `translateX(${-currentIndex * 100}%)`;
+                setTimeout(() => {
+                    slides.style.transition = 'transform 0.5s ease-in-out'; // Re-enable transition
+                    showSlide(currentIndex);
+                }, 50);
+                return;
             } else if (index < 0) {
-                currentIndex = totalSlides - 1;
-            } else {
-                currentIndex = index;
+                currentIndex = totalSlides - 2; // Skip to the last real slide
+                slides.style.transition = 'none'; // Disable transition for the jump
+                slides.style.transform = `translateX(${-currentIndex * 100}%)`;
+                setTimeout(() => {
+                    slides.style.transition = 'transform 0.5s ease-in-out'; // Re-enable transition
+                    showSlide(currentIndex);
+                }, 50);
+                return;
             }
-            slides.style.transform = `translateX(${-currentIndex * 80}%)`; // Adjusted to account for margins
+            currentIndex = index;
+            slides.style.transform = `translateX(${-currentIndex * 100}%)`;
             images.forEach((img, i) => {
                 img.classList.remove('active');
                 if (i === currentIndex) {
