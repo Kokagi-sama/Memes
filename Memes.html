@@ -24,7 +24,7 @@
 
         .carousel {
             position: relative;
-            max-width: 100%;
+            max-width: 80%; /* Adjust width as needed */
             margin: auto;
             overflow: hidden;
         }
@@ -35,8 +35,14 @@
         }
 
         .carousel-image {
-            min-width: 100%;
+            min-width: 60%; /* Adjust width to show partial images */
             box-sizing: border-box;
+            opacity: 0.6; /* Fade out non-active images */
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .carousel-image.active {
+            opacity: 1; /* Fully visible active image */
         }
 
         .button-container {
@@ -97,7 +103,7 @@
         <h1 class="title">Memes</h1>
         <div class="carousel">
             <div class="carousel-images">
-                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_under_trees.jpg" alt="Aoko Under Trees">
+                <img class="carousel-image active" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_under_trees.jpg" alt="Aoko Under Trees">
                 <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_fifth_magic.jpg" alt="Aoko Fifth Magic">
                 <img class="carousel-image" src="https://raw.githubusercontent.com/Kokagi-sama/Memes/main/aoko_unleashing_magic.jpg" alt="Aoko Unleashing Magic">
                 <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_umbrella.jpeg" alt="Aoko Umbrella">
@@ -112,10 +118,12 @@
 
     <script>
         let currentIndex = 0;
+        const intervalTime = 3000; // Time in milliseconds (3 seconds)
+        const slides = document.querySelector('.carousel-images');
+        const images = document.querySelectorAll('.carousel-image');
+        const totalSlides = images.length;
 
         function showSlide(index) {
-            const slides = document.querySelector('.carousel-images');
-            const totalSlides = document.querySelectorAll('.carousel-image').length;
             if (index >= totalSlides) {
                 currentIndex = 0;
             } else if (index < 0) {
@@ -123,15 +131,28 @@
             } else {
                 currentIndex = index;
             }
-            slides.style.transform = `translateX(${-currentIndex * 100}%)`;
+            slides.style.transform = `translateX(${-currentIndex * 60}%)`;
+            images.forEach((img, i) => {
+                img.classList.remove('active');
+                if (i === currentIndex) {
+                    img.classList.add('active');
+                }
+            });
         }
 
         function moveSlide(step) {
             showSlide(currentIndex + step);
         }
 
+        function autoSlide() {
+            setInterval(() => {
+                moveSlide(1); // Automatically move to the next slide
+            }, intervalTime);
+        }
+
         // Initial display
         showSlide(currentIndex);
+        autoSlide(); // Start the auto sliding
     </script>
 </body>
 </html>
