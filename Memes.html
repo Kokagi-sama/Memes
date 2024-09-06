@@ -92,6 +92,32 @@
         .next {
             right: 0;
         }
+
+        /* Audio controls styling */
+        .audio-controls {
+            margin-top: 20px;
+        }
+
+        .audio-button {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .audio-button:hover {
+            background-color: #e67e22;
+        }
+
+        .volume-slider {
+            width: 200px;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
@@ -107,14 +133,22 @@
             <button class="carousel-button prev" onclick="moveSlide(-1)">&#10094;</button>
             <button class="carousel-button next" onclick="moveSlide(1)">&#10095;</button>
         </div>
+        <div class="audio-controls">
+            <button class="audio-button" id="audioToggle" onclick="toggleAudio()">🔊</button>
+            <input type="range" class="volume-slider" id="volumeControl" min="0" max="1" step="0.01" value="0.5" onchange="setVolume(this.value)">
+        </div>
         <div class="button-container">
             <button id="button" onclick="location.href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'" class="button">Click Me</button>
         </div>
     </div>
 
+    <audio id="backgroundAudio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop></audio>
+
     <script>
         let currentIndex = 0;
         let autoSlideInterval;
+        const audio = document.getElementById('backgroundAudio');
+        const audioToggle = document.getElementById('audioToggle');
 
         function showSlide(index) {
             const slides = document.querySelector('.carousel-images');
@@ -126,7 +160,7 @@
             } else {
                 currentIndex = index;
             }
-            slides.style.transform = `translateX(${-currentIndex * 960}px)`; // Adjusted to remove gap at the end
+            slides.style.transform = `translateX(${-currentIndex * 960}px)`;
         }
 
         function moveSlide(step) {
@@ -141,6 +175,20 @@
 
         function stopAutoSlide() {
             clearInterval(autoSlideInterval);
+        }
+
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.play();
+                audioToggle.textContent = '🔊';
+            } else {
+                audio.pause();
+                audioToggle.textContent = '🔈';
+            }
+        }
+
+        function setVolume(volume) {
+            audio.volume = volume;
         }
 
         // Start automatic sliding
