@@ -23,26 +23,25 @@
 
         .carousel {
             position: relative;
-            width: 80%;
+            width: 80%;  /* Adjust this to control how much space the carousel takes */
             margin: auto;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         .carousel-images {
             display: flex;
             transition: transform 0.5s ease-in-out;
-            width: 300%;
-            justify-content: center;
+            padding: 0;
+            margin: 0;
         }
 
         .carousel-image {
             height: 480px;
-            width: 33.33%; /* Each image should take a third of the space to show the previous and next images */
+            flex: 0 0 60%; /* Each image takes 60% of the carousel width */
+            margin: 0 10px; /* Adds some space between images */
             object-fit: cover;
-            opacity: 0.5; /* Dim side images */
+            opacity: 0.5; /* Side images are dimmed */
+            transition: opacity 0.5s ease;
         }
 
         .carousel-image.active {
@@ -63,6 +62,7 @@
             cursor: pointer;
             border-radius: 3px;
             user-select: none;
+            z-index: 1;
         }
 
         .prev {
@@ -125,8 +125,14 @@
         const totalSlides = images.length;
 
         function showSlide(index) {
-            currentIndex = (index + totalSlides) % totalSlides; // Ensure index wraps around
-            slides.style.transform = `translateX(${-currentIndex * 33.33}%)`;
+            // Ensure the index wraps around using modulus
+            currentIndex = (index + totalSlides) % totalSlides;
+            
+            // Calculate the correct translateX position for centering the image
+            const offset = -((currentIndex * 100) + 20); // 20 accounts for the 10px margin on each side
+            slides.style.transform = `translateX(${offset}%)`;
+            
+            // Highlight the active image
             images.forEach((img, i) => {
                 img.classList.remove('active');
                 if (i === currentIndex) {
