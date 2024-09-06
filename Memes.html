@@ -191,9 +191,19 @@
             audio.volume = volume;
         }
 
-        // Ensure audio starts in the correct state
         document.addEventListener('DOMContentLoaded', () => {
+            // Ensure audio starts in the correct state
             audioToggle.textContent = audio.paused ? '🔈' : '🔊';
+        
+            // Add an event listener to ensure audio starts with user interaction
+            document.body.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play().catch(() => {
+                        // Handle cases where play might fail, e.g., user interaction required
+                        console.log("User interaction required to play audio.");
+                    });
+                }
+            }, { once: true }); // Run this listener only once
         });
 
         // Start automatic sliding
