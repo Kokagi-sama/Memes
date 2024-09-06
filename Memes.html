@@ -200,7 +200,7 @@
                 if (audio.paused) {
                     audio.play().catch(() => {
                         // Handle cases where play might fail, e.g., user interaction required
-                        console.log("User interaction required to play audio.");
+                        audioToggle.textContent = audio.paused ? '🔈' : '🔊';
                     });
                 }
             }, { once: true }); // Run this listener only once
