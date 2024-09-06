@@ -202,6 +202,7 @@
                         // Handle cases where play might fail, e.g., user interaction required
                         audioToggle.textContent = audio.paused ? '🔈' : '🔊';
                     });
+                    audioToggle.textContent = audio.paused ? '🔈' : '🔊';
                 }
             }, { once: true }); // Run this listener only once
         });
