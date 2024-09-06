@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    <link rel="stylesheet" href="java/stylesheet.css">
+    <title>Memes</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memes Carousel</title>
     <style>
         body {
             background-image: url('https://images4.alphacoders.com/865/thumb-1920-865573.png');
@@ -24,7 +24,8 @@
 
         .carousel {
             position: relative;
-            max-width: 800px;
+            width: 960px;
+            height: 540px;
             margin: auto;
             overflow: hidden;
         }
@@ -35,14 +36,10 @@
         }
 
         .carousel-image {
-            width: 33.33%;
-            opacity: 0.5;
+            width: 960px;
+            height: 540px;
+            margin: 0 10px;
             box-sizing: border-box;
-            transition: opacity 0.3s;
-        }
-
-        .carousel-image.active {
-            opacity: 1;
         }
 
         .button-container {
@@ -117,48 +114,41 @@
     </div>
 
     <script>
-        let currentIndex = 1;
-        const carouselImages = document.querySelector('.carousel-images');
-        const images = Array.from(document.querySelectorAll('.carousel-image'));
-        const totalSlides = images.length;
-
-        function updateCarousel() {
-            // Circular queue logic for determining previous, current, and next images
-            const prevIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-            const nextIndex = (currentIndex + 1) % totalSlides;
-
-            // Re-arrange the images to always show previous, current, and next images
-            carouselImages.innerHTML = '';
-
-            // Add previous, current, and next images in correct order
-            carouselImages.appendChild(images[prevIndex].cloneNode(true));
-            carouselImages.appendChild(images[currentIndex].cloneNode(true));
-            carouselImages.appendChild(images[nextIndex].cloneNode(true));
-
-            // Add active class to the center image
-            const newImages = document.querySelectorAll('.carousel-image');
-            newImages[1].classList.add('active');
-
-            // Reset transform to start from the second image (current)
-            carouselImages.style.transform = 'translateX(-33.33%)';
-        }
+        let currentIndex = 0;
+        let autoSlideInterval;
 
         function showSlide(index) {
-            currentIndex = (index + totalSlides) % totalSlides;
-            updateCarousel();
+            const slides = document.querySelector('.carousel-images');
+            const totalSlides = document.querySelectorAll('.carousel-image').length;
+            if (index >= totalSlides) {
+                currentIndex = 0;
+            } else if (index < 0) {
+                currentIndex = totalSlides - 1;
+            } else {
+                currentIndex = index;
+            }
+            slides.style.transform = `translateX(${-currentIndex * (960 + 20)}px)`; // Adjust for image width and margin
         }
 
         function moveSlide(step) {
             showSlide(currentIndex + step);
         }
 
-        // Auto move the slide every 3 seconds
-        setInterval(() => {
-            moveSlide(1);
-        }, 3000);
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                moveSlide(1);
+            }, 3000); // Changes slides every 3 seconds
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+
+        // Start automatic sliding
+        startAutoSlide();
 
         // Initial display
-        updateCarousel();
+        showSlide(currentIndex);
     </script>
 </body>
 </html>
