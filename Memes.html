@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="java/stylesheet.css">
     <title>Memes</title>
+    <meta charset="UTF-8">
     <style>
         body {
             background-image: url('https://images4.alphacoders.com/865/thumb-1920-865573.png');
@@ -24,58 +24,27 @@
 
         .carousel {
             position: relative;
-            width: 80%;
+            max-width: 100%;
             margin: auto;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         .carousel-images {
             display: flex;
             transition: transform 0.5s ease-in-out;
-            margin: 0;
-            padding: 0;
         }
 
         .carousel-image {
-            flex: 0 0 60%; /* Each image takes 60% of the carousel's width */
-            height: 480px;
-            margin: 0 10px;
-            object-fit: cover;
-            opacity: 0.5;
-            transition: opacity 0.5s ease;
-        }
-
-        .carousel-image.active {
-            opacity: 1; /* Highlight the active image */
-        }
-
-        .carousel-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            padding: 16px;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            background-color: rgba(0, 0, 0, 0.5);
-            border: none;
-            cursor: pointer;
-            border-radius: 3px;
-            user-select: none;
-        }
-
-        .prev {
-            left: 0;
-        }
-
-        .next {
-            right: 0;
+            min-width: 100%;
+            box-sizing: border-box;
         }
 
         .button-container {
+            margin-top: 20px;
+        }
+
+        .title {
+            font-size: 2em;
             margin-top: 20px;
         }
 
@@ -97,6 +66,30 @@
         .button:hover {
             background-color: purple;
         }
+
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+            user-select: none;
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
     </style>
 </head>
 <body>
@@ -104,12 +97,10 @@
         <h1 class="title">Memes</h1>
         <div class="carousel">
             <div class="carousel-images">
-                <!-- Slide images -->
-                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_unleashing_magic.jpg" alt="Aoko Unleashing Magic" height="480px">
-                <img class="carousel-image active" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_umbrella.jpeg" alt="Aoko Umbrella" height="480px">
-                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_under_trees.jpg" alt="Aoko Under Trees" height="480px">
-                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_fifth_magic.jpg" alt="Aoko Fifth Magic" height="480px">
-                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_unleashing_magic.jpg" alt="Aoko Unleashing Magic" height="480px">
+                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_under_trees.jpg" alt="Aoko Under Trees">
+                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_fifth_magic.jpg" alt="Aoko Fifth Magic">
+                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_unleasing_magic.jpg" alt="Aoko Unleashing Magic">
+                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_umbrella.jpg" alt="Aoko Umbrella">
             </div>
             <button class="carousel-button prev" onclick="moveSlide(-1)">&#10094;</button>
             <button class="carousel-button next" onclick="moveSlide(1)">&#10095;</button>
@@ -120,40 +111,27 @@
     </div>
 
     <script>
-        let currentIndex = 1; // Start at the second image (center)
-        const slides = document.querySelector('.carousel-images');
-        const images = document.querySelectorAll('.carousel-image');
-        const totalSlides = images.length;
+        let currentIndex = 0;
 
         function showSlide(index) {
-            currentIndex = (index + totalSlides) % totalSlides; // Ensure index wraps around
-
-            // Calculate the correct translateX value for centering the current image
-            const offset = -currentIndex * (100 / 3.3); // Adjusting based on 3 images being shown partially
-            slides.style.transform = `translateX(${offset}%)`;
-
-            // Manage active class for opacity changes
-            images.forEach((img, i) => {
-                img.classList.remove('active');
-                if (i === currentIndex) {
-                    img.classList.add('active');
-                }
-            });
+            const slides = document.querySelector('.carousel-images');
+            const totalSlides = document.querySelectorAll('.carousel-image').length;
+            if (index >= totalSlides) {
+                currentIndex = 0;
+            } else if (index < 0) {
+                currentIndex = totalSlides - 1;
+            } else {
+                currentIndex = index;
+            }
+            slides.style.transform = `translateX(${-currentIndex * 100}%)`;
         }
 
         function moveSlide(step) {
             showSlide(currentIndex + step);
         }
 
-        function autoSlide() {
-            setInterval(() => {
-                moveSlide(1); // Automatically move to the next slide
-            }, 3000); // Change every 3 seconds
-        }
-
         // Initial display
         showSlide(currentIndex);
-        autoSlide(); // Start the auto sliding
     </script>
 </body>
 </html>
