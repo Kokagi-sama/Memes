@@ -22,10 +22,21 @@
             padding: 20px;
         }
 
-        .image {
+        .carousel {
+            position: relative;
             max-width: 100%;
-            height: auto;
-            margin: 0 auto;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .carousel-images {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-image {
+            min-width: 100%;
+            box-sizing: border-box;
         }
 
         .button-container {
@@ -55,19 +66,71 @@
         .button:hover {
             background-color: purple;
         }
+
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+            user-select: none;
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 class="title">Memes</h1>
-        <div>
-            <a href="https://www.youtube.com/watch?v=BMvqvnyGtGo">
-               <img class="image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_under_trees.jpg" alt="Aoko Under Trees" height="480px" />
-            </a>
+        <div class="carousel">
+            <div class="carousel-images">
+                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_under_trees.jpg" alt="Aoko Under Trees">
+                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_fifth_magic.jpg" alt="Another Image">
+                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_unleasing_magic.jpg" alt="Yet Another Image">
+            </div>
+            <button class="carousel-button prev" onclick="moveSlide(-1)">&#10094;</button>
+            <button class="carousel-button next" onclick="moveSlide(1)">&#10095;</button>
         </div>
         <div class="button-container">
             <button id="button" onclick="location.href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'" class="button">Click Me</button>
         </div>
     </div>
+
+    <script>
+        let currentIndex = 0;
+
+        function showSlide(index) {
+            const slides = document.querySelector('.carousel-images');
+            const totalSlides = document.querySelectorAll('.carousel-image').length;
+            if (index >= totalSlides) {
+                currentIndex = 0;
+            } else if (index < 0) {
+                currentIndex = totalSlides - 1;
+            } else {
+                currentIndex = index;
+            }
+            slides.style.transform = `translateX(${-currentIndex * 100}%)`;
+        }
+
+        function moveSlide(step) {
+            showSlide(currentIndex + step);
+        }
+
+        // Initial display
+        showSlide(currentIndex);
+    </script>
 </body>
 </html>
