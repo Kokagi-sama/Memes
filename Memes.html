@@ -36,15 +36,8 @@
 
         .carousel-image {
             height: 480px; /* Fixed height */
+            width: 80%; /* Adjust width to show partial images on both sides */
             object-fit: cover; /* Ensure the image covers the area while maintaining aspect ratio */
-            width: 60%; /* Adjust width to show partial images on both sides */
-            margin: 0 20px; /* Add margin to create space for partial views */
-            opacity: 0.6; /* Fade out non-active images */
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        .carousel-image.active {
-            opacity: 1; /* Fully visible active image */
         }
 
         .button-container {
@@ -105,12 +98,12 @@
         <h1 class="title">Memes</h1>
         <div class="carousel">
             <div class="carousel-images">
-                <!-- Clone of last image -->
+                <!-- Slide images -->
                 <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_umbrella.jpeg" alt="Aoko Umbrella">
                 <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_under_trees.jpg" alt="Aoko Under Trees">
                 <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_fifth_magic.jpg" alt="Aoko Fifth Magic">
                 <img class="carousel-image" src="https://raw.githubusercontent.com/Kokagi-sama/Memes/main/aoko_unleashing_magic.jpg" alt="Aoko Unleashing Magic">
-                <!-- Clone of first image -->
+                <!-- Clone of first image to handle seamless looping -->
                 <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_under_trees.jpg" alt="Aoko Under Trees">
             </div>
             <button class="carousel-button prev" onclick="moveSlide(-1)">&#10094;</button>
