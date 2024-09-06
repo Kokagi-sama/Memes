@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="java/stylesheet.css">
     <title>Memes</title>
     <meta charset="UTF-8">
     <style>
@@ -24,49 +23,30 @@
 
         .carousel {
             position: relative;
-            width: 80%; /* Adjust width as needed */
+            width: 80%;
             margin: auto;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .carousel-images {
             display: flex;
             transition: transform 0.5s ease-in-out;
-            width: 100%; /* Ensure the container is full width */
+            width: 300%;
+            justify-content: center;
         }
 
         .carousel-image {
-            height: 480px; /* Fixed height */
-            width: 100%; /* Each image should take full width */
-            object-fit: cover; /* Ensure the image covers the area while maintaining aspect ratio */
+            height: 480px;
+            width: 33.33%; /* Each image should take a third of the space to show the previous and next images */
+            object-fit: cover;
+            opacity: 0.5; /* Dim side images */
         }
 
-        .button-container {
-            margin-top: 20px;
-        }
-
-        .title {
-            font-size: 2em;
-            margin-top: 20px;
-        }
-
-        .button {
-            background-color: magenta;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        .button:hover {
-            background-color: purple;
+        .carousel-image.active {
+            opacity: 1; /* Highlight the active image */
         }
 
         .carousel-button {
@@ -92,6 +72,29 @@
         .next {
             right: 0;
         }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: magenta;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: purple;
+        }
     </style>
 </head>
 <body>
@@ -100,12 +103,11 @@
         <div class="carousel">
             <div class="carousel-images">
                 <!-- Slide images -->
-                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_umbrella.jpeg" alt="Aoko Umbrella">
+                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_unleashing_magic.jpg" alt="Aoko Unleashing Magic">
+                <img class="carousel-image active" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_umbrella.jpeg" alt="Aoko Umbrella">
                 <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_under_trees.jpg" alt="Aoko Under Trees">
                 <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_fifth_magic.jpg" alt="Aoko Fifth Magic">
-                <img class="carousel-image" src="https://raw.githubusercontent.com/Kokagi-sama/Memes/main/aoko_unleashing_magic.jpg" alt="Aoko Unleashing Magic">
-                <!-- Clone of first image to handle seamless looping -->
-                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_under_trees.jpg" alt="Aoko Under Trees">
+                <img class="carousel-image" src="https://raw.githubusercontent.com/kokagi-sama/Memes/main/aoko_unleashing_magic.jpg" alt="Aoko Unleashing Magic">
             </div>
             <button class="carousel-button prev" onclick="moveSlide(-1)">&#10094;</button>
             <button class="carousel-button next" onclick="moveSlide(1)">&#10095;</button>
@@ -116,34 +118,15 @@
     </div>
 
     <script>
-        let currentIndex = 1; // Start at the second slide (to handle clone at the start)
+        let currentIndex = 1; // Start at the second image (center)
         const intervalTime = 3000; // Time in milliseconds (3 seconds)
         const slides = document.querySelector('.carousel-images');
         const images = document.querySelectorAll('.carousel-image');
         const totalSlides = images.length;
 
         function showSlide(index) {
-            if (index >= totalSlides) {
-                currentIndex = 1; // Skip to the first real slide
-                slides.style.transition = 'none'; // Disable transition for the jump
-                slides.style.transform = `translateX(${-currentIndex * 100}%)`;
-                setTimeout(() => {
-                    slides.style.transition = 'transform 0.5s ease-in-out'; // Re-enable transition
-                    showSlide(currentIndex);
-                }, 50);
-                return;
-            } else if (index < 0) {
-                currentIndex = totalSlides - 2; // Skip to the last real slide
-                slides.style.transition = 'none'; // Disable transition for the jump
-                slides.style.transform = `translateX(${-currentIndex * 100}%)`;
-                setTimeout(() => {
-                    slides.style.transition = 'transform 0.5s ease-in-out'; // Re-enable transition
-                    showSlide(currentIndex);
-                }, 50);
-                return;
-            }
-            currentIndex = index;
-            slides.style.transform = `translateX(${-currentIndex * 100}%)`;
+            currentIndex = (index + totalSlides) % totalSlides; // Ensure index wraps around
+            slides.style.transform = `translateX(${-currentIndex * 33.33}%)`;
             images.forEach((img, i) => {
                 img.classList.remove('active');
                 if (i === currentIndex) {
