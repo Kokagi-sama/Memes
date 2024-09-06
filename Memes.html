@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="java/stylesheet.css">
-    <title>Memes</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memes</title>
     <style>
         body {
             background-image: url('https://images4.alphacoders.com/865/thumb-1920-865573.png');
@@ -24,7 +24,7 @@
 
         .carousel {
             position: relative;
-            max-width: 100%;
+            max-width: 800px;
             margin: auto;
             overflow: hidden;
         }
@@ -35,8 +35,14 @@
         }
 
         .carousel-image {
-            min-width: 100%;
+            width: 33.33%;
             box-sizing: border-box;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .carousel-image.active {
+            opacity: 1;
         }
 
         .button-container {
@@ -111,27 +117,39 @@
     </div>
 
     <script>
-        let currentIndex = 0;
+        let currentIndex = 1;
+        const carouselImages = document.querySelector('.carousel-images');
+        const totalSlides = document.querySelectorAll('.carousel-image').length;
+
+        function updateCarousel() {
+            const offset = -currentIndex * 33.33; // Move carousel by index
+            carouselImages.style.transform = `translateX(${offset}%)`;
+
+            const images = document.querySelectorAll('.carousel-image');
+            images.forEach((img, i) => {
+                img.classList.remove('active');
+                if (i === currentIndex) {
+                    img.classList.add('active');
+                }
+            });
+        }
 
         function showSlide(index) {
-            const slides = document.querySelector('.carousel-images');
-            const totalSlides = document.querySelectorAll('.carousel-image').length;
-            if (index >= totalSlides) {
-                currentIndex = 0;
-            } else if (index < 0) {
-                currentIndex = totalSlides - 1;
-            } else {
-                currentIndex = index;
-            }
-            slides.style.transform = `translateX(${-currentIndex * 100}%)`;
+            currentIndex = (index + totalSlides) % totalSlides; // Keep index in bounds
+            updateCarousel();
         }
 
         function moveSlide(step) {
             showSlide(currentIndex + step);
         }
 
+        // Auto move the slide every 3 seconds
+        setInterval(() => {
+            moveSlide(1);
+        }, 3000);
+
         // Initial display
-        showSlide(currentIndex);
+        updateCarousel();
     </script>
 </body>
 </html>
