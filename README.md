@@ -1,4 +1,4 @@
 # Hello
 
-[View the HTML page](https://Kokagi-sama.github.io/Hello/Memes.html)
+[View the HTML page](Hello/Memes.html)
 
