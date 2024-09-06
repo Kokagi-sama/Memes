@@ -24,7 +24,7 @@
 
         .carousel {
             position: relative;
-            max-width: 80%; /* Adjust width as needed */
+            width: 80%; /* Adjust width as needed */
             margin: auto;
             overflow: hidden;
         }
@@ -35,8 +35,10 @@
         }
 
         .carousel-image {
-            min-width: 60%; /* Adjust width to show partial images */
-            box-sizing: border-box;
+            height: 480px; /* Fixed height */
+            object-fit: cover; /* Ensure the image covers the area while maintaining aspect ratio */
+            width: 60%; /* Adjust width to show partial images on both sides */
+            margin: 0 20px; /* Add margin to create space for partial views */
             opacity: 0.6; /* Fade out non-active images */
             transition: opacity 0.5s ease-in-out;
         }
@@ -131,7 +133,7 @@
             } else {
                 currentIndex = index;
             }
-            slides.style.transform = `translateX(${-currentIndex * 60}%)`;
+            slides.style.transform = `translateX(${-currentIndex * 80}%)`; // Adjusted to account for margins
             images.forEach((img, i) => {
                 img.classList.remove('active');
                 if (i === currentIndex) {
