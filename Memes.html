@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Memes</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memes</title>
     <style>
         body {
             background-image: url('https://images4.alphacoders.com/865/thumb-1920-865573.png');
@@ -23,24 +24,27 @@
 
         .carousel {
             position: relative;
-            width: 80%;  /* Adjust this to control how much space the carousel takes */
+            width: 80%;
             margin: auto;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .carousel-images {
             display: flex;
             transition: transform 0.5s ease-in-out;
-            padding: 0;
             margin: 0;
+            padding: 0;
         }
 
         .carousel-image {
+            flex: 0 0 60%; /* Each image takes 60% of the carousel's width */
             height: 480px;
-            flex: 0 0 60%; /* Each image takes 60% of the carousel width */
-            margin: 0 10px; /* Adds some space between images */
+            margin: 0 10px;
             object-fit: cover;
-            opacity: 0.5; /* Side images are dimmed */
+            opacity: 0.5;
             transition: opacity 0.5s ease;
         }
 
@@ -51,9 +55,8 @@
         .carousel-button {
             position: absolute;
             top: 50%;
-            width: auto;
+            transform: translateY(-50%);
             padding: 16px;
-            margin-top: -22px;
             color: white;
             font-weight: bold;
             font-size: 18px;
@@ -62,7 +65,6 @@
             cursor: pointer;
             border-radius: 3px;
             user-select: none;
-            z-index: 1;
         }
 
         .prev {
@@ -119,20 +121,18 @@
 
     <script>
         let currentIndex = 1; // Start at the second image (center)
-        const intervalTime = 3000; // Time in milliseconds (3 seconds)
         const slides = document.querySelector('.carousel-images');
         const images = document.querySelectorAll('.carousel-image');
         const totalSlides = images.length;
 
         function showSlide(index) {
-            // Ensure the index wraps around using modulus
-            currentIndex = (index + totalSlides) % totalSlides;
-            
-            // Calculate the correct translateX position for centering the image
-            const offset = -((currentIndex * 100) + 20); // 20 accounts for the 10px margin on each side
+            currentIndex = (index + totalSlides) % totalSlides; // Ensure index wraps around
+
+            // Calculate the correct translateX value for centering the current image
+            const offset = -currentIndex * (100 / 3.3); // Adjusting based on 3 images being shown partially
             slides.style.transform = `translateX(${offset}%)`;
-            
-            // Highlight the active image
+
+            // Manage active class for opacity changes
             images.forEach((img, i) => {
                 img.classList.remove('active');
                 if (i === currentIndex) {
@@ -148,7 +148,7 @@
         function autoSlide() {
             setInterval(() => {
                 moveSlide(1); // Automatically move to the next slide
-            }, intervalTime);
+            }, 3000); // Change every 3 seconds
         }
 
         // Initial display
